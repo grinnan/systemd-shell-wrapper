@@ -23,8 +23,6 @@ s.list()        { s_list_services "list"; }
 s.log()         { s_journalctl "$@"; }
 s.tree()        { s_exec "/usr/bin/systemd-cgls --all"; }
 s.logtruncate() { s_exec "${_systemctl}"" start systemd-journal-flush.service"; s_exec "/bin/rm /var/log/journal/""$(cat /etc/machine-id)""/system@*"; s_exec "${_systemctl}"" kill --kill-who=main --signal=SIGUSR2 systemd-journald.service"; }
-s.reboot()	{ $_systemctl reboot; }
-s.shutdown()	{ $_systemctl poweroff; }
 
 # Function to unify regex matching, so we don't have to duplicate
 # the regular expression. It returns the success of failure in matching $1
@@ -230,8 +228,6 @@ s_bashcompletion_disable () { s_bashcompletion "enabled"; return 0; }
 s_bashcompletion_status () { s_bashcompletion ""; return 0; }
 s_bashcompletion_wants () { s_bashcompletion "target"; return 0; }
 s_bashcompletion_log () { s_bashcompletion ""; return 0; }
-s_bashcompletion_reboot () { s_bashcompletion ""; }
-s_bashcompletion_shutdown() { s_bashcompletion ""; }
 
 complete -F s_bashcompletion_start s.start
 complete -F s_bashcompletion_stop s.stop
@@ -242,5 +238,3 @@ complete -F s_bashcompletion_disable s.disable
 complete -F s_bashcompletion_status s.status
 complete -F s_bashcompletion_wants s.wants
 complete -F s_bashcompletion_log s.log
-complete -F s_bashcompletion_reboot s.reboot
-complete -F s_bashcompletion_shutdown s.shutdown
