@@ -23,6 +23,8 @@ s.list()        { s_list_services "list"; }
 s.log()         { s_journalctl "$@"; }
 s.tree()        { s_exec "/usr/bin/systemd-cgls --all"; }
 s.logtruncate() { s_exec "${_systemctl}"" start systemd-journal-flush.service"; s_exec "/bin/rm /var/log/journal/""$(cat /etc/machine-id)""/system@*"; s_exec "${_systemctl}"" kill --kill-who=main --signal=SIGUSR2 systemd-journald.service"; }
+s.shutdown()	{ $_systemctl poweroff; }
+s.reboot()	{ $_systemctl reboot; }
 
 # Function to unify regex matching, so we don't have to duplicate
 # the regular expression. It returns the success of failure in matching $1
